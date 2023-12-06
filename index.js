@@ -41,6 +41,7 @@ class Room {
         const endDateData = endDate.split('/')
         const endDateFormatted = new Date(parseInt(endDateData[2]),parseInt(endDateData[1])-1,parseInt(endDateData[0]));
 
+
         let totalDaysOccupied = 0
 
         const totalDays = Math.round((endDateFormatted-startDateFormatted) / (24 * 3600 * 1000)+1)
@@ -81,6 +82,64 @@ class Room {
         return ( totalDaysOccupied / totalDays ) * 100
 
     }
+
+    static totalOccupancyPercentage(rooms,startDate,endDate){
+
+        const startDateData = startDate.split('/')
+        const startDateFormatted = new Date(parseInt(startDateData[2]),parseInt(startDateData[1])-1,parseInt(startDateData[0]));
+
+        const endDateData = endDate.split('/')
+        const endDateFormatted = new Date(parseInt(endDateData[2]),parseInt(endDateData[1])-1,parseInt(endDateData[0]));
+
+        let roomsPercentage = 0;
+
+        // total de días a calcular
+        const totalDays = Math.round((endDateFormatted-startDateFormatted) / (24 * 3600 * 1000)+1)
+
+        // iteración del rango de fechas
+        while (startDateFormatted <= endDateFormatted) {
+            
+            let countRoomOcupied = 0;
+            // iteración de las habitaciones en cada día
+            for (const room of rooms) {
+
+                const roomInstance = new Room(room.name,room.bookings,room.rate,room.discount)
+                
+                // comprobar si esta habitación está ocupada en ese día
+                if(roomInstance.isOccupied(startDate)){
+                    countRoomOcupied++
+                }
+
+            }
+            // Calcular el porcentaje de la ocupación de todas las habitaciones en ese día y
+            // y acumular en roomsPercentage para hacer el promedio total de las habitaciones
+            roomsPercentage += (countRoomOcupied / rooms.length ) * 100
+
+            startDateFormatted.setDate(startDateFormatted.getDate()+1)
+            startDate = `${startDateFormatted.getDate()}/${startDateFormatted.getMonth()+1}/${startDateFormatted.getFullYear()}`
+            
+        }
+        // devolver el promedio de toda la ocupación que hay de todas las habitaciones en el rango de esos días
+        return  Math.round(roomsPercentage / totalDays)
+
+    }
+
+    static availableRooms(rooms,startDate,endDate){
+
+        const roomsAvailable = []
+
+        for (const room of rooms) {
+
+            const roomInstance = new Room(room.name,room.bookings,room.rate,room.discount)
+
+            if(roomInstance.occupancyPercentage(startDate,endDate) === 0){
+                
+                roomsAvailable.push(room.name)
+            }
+        }
+
+        return roomsAvailable
+    }
 }
 
 class Booking {
@@ -104,6 +163,8 @@ class Booking {
         return feeDiscount
     }
 }
+
+
 
 
 module.exports = { Room, Booking };

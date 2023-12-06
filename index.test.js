@@ -1,5 +1,6 @@
-const bookings = require('./bookings.json')
-const rooms = require('./rooms.json')
+const bookings = require('./data/bookings.json')
+const rooms = require('./data/rooms.json')
+const roomsWithBookings = require('./data/roomsWithBookings.json')
 const { Room, Booking } = require('./index')
 
 
@@ -64,16 +65,44 @@ describe("TEST OCCUPANCY PERCENTAGE", () => {
 
 describe("TEST TOTAL OCCUPANCY PERCENTAGE",() => {
 
+    test("Ocupación total de todas las habitaciones en ese rango de fechas", () => {
 
-    test("")
+        expect(Room.totalOccupancyPercentage(roomsWithBookings,'20/12/2023','22/12/2023')).toBe(100)
+
+    })
+
+    test("No hay ninguna ocupación en ese rango de fechas", () => {
+
+        expect(Room.totalOccupancyPercentage(roomsWithBookings,'01/12/2023','4/12/2023')).toBe(0)
+    })
+
+    test("Porcentaje parcial ocupado en ese rango de fechas", () => {
+
+        expect(Room.totalOccupancyPercentage(roomsWithBookings,'05/12/2023','10/12/2023')).toBe(67)
+    })
+
 
 })
 
 
 describe("TEST AVAILABLE ROOMS",() => {
 
-    test("", () => {
-        
+    test("No hay ninguna habitación libre en ese rango de fechas", () => {
+
+        expect(Room.availableRooms(roomsWithBookings,'05/12/2023','10/12/2023')).toEqual([])
+
+    })
+
+    test("Están todas las habitaciones libres en ese rango de fechas", () => {
+
+        expect(Room.availableRooms(roomsWithBookings,'01/12/2023','04/12/2023')).toEqual(["hab1","hab2","hab3","hab4"])
+
+    })
+
+    test("hay algunas habitaciones libres en ese rango de fechas", () => {
+
+        expect(Room.availableRooms(roomsWithBookings,'29/12/2023','31/12/2023')).toEqual(["hab1","hab4"])
+
     })
 })
 
