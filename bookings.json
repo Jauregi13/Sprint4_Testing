@@ -1,0 +1,46 @@
+
+
+[
+    {
+        "name": "book1",
+        "email": "jon@gmail.com",
+        "checkIn": "10/12/2023",
+        "checkOut": "15/12/2023",
+        "discount": 10
+    },
+    {
+        "name": "book2",
+        "email": "jon@gmail.com",
+        "checkIn": "16/12/2023",
+        "checkOut": "19/12/2023",
+        "discount": 15
+    },
+    {
+        "name": "book3",
+        "email": "jon@gmail.com",
+        "checkIn": "20/12/2023",
+        "checkOut": "22/12/2023",
+        "discount": 17
+    },
+    {
+        "name": "book4",
+        "email": "jon@gmail.com",
+        "checkIn": "05/12/2023",
+        "checkOut": "09/12/2023",
+        "discount": 20
+    },
+    {
+        "name": "book5",
+        "email": "jon@gmail.com",
+        "checkIn": "24/12/2023",
+        "checkOut": "27/12/2023",
+        "discount": 0
+    },
+    {
+        "name": "book6",
+        "email": "jon@gmail.com",
+        "checkIn": "29/12/2023",
+        "checkOut": "31/12/2023",
+        "discount": 8
+    }
+]

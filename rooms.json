@@ -1,0 +1,24 @@
+
+
+[
+    {
+        "name": "hab1",
+        "rate": 10000,
+        "discount": 15
+    },
+    {
+        "name": "hab2",
+        "rate": 12000,
+        "discount": 10
+    },
+    {
+        "name": "hab3",
+        "rate": 20000,
+        "discount": 20
+    },
+    {
+        "name": "hab4",
+        "rate": 25000,
+        "discount": 0
+    }
+]
