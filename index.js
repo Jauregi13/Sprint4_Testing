@@ -53,20 +53,30 @@ class Room {
             const checkIn = new Date(parseInt(checkInData[2]),parseInt(checkInData[1])-1,parseInt(checkInData[0]))
             const checkOut = new Date(parseInt(checkOutData[2]),parseInt(checkOutData[1])-1,parseInt(checkOutData[0]))
 
+            // Condición para comprobar si el rango de startDate y endDate está fuera de checkIn y checkOut
+            if(checkIn <= endDateFormatted && checkOut >= startDateFormatted){
 
-            if(startDateFormatted <= checkIn && endDateFormatted >= checkOut){
+                if(startDateFormatted <= checkIn && endDateFormatted >= checkOut){
 
-                totalDaysOccupied += Math.round((checkOut-checkIn) / (24 * 3600 * 1000)+1)
+                    totalDaysOccupied += Math.round((checkOut-checkIn) / (24 * 3600 * 1000)+1)
+    
+                }
+                else if(startDateFormatted <= checkIn && endDateFormatted < checkOut){
+    
+                    totalDaysOccupied += Math.round((endDateFormatted-checkIn) / (24 * 3600 * 1000)+1)
+                }
+                else if(startDateFormatted > checkIn && endDateFormatted >= checkOut){
 
-            }
-            else if(startDateFormatted <= checkIn && endDateFormatted > checkIn  && endDateFormatted < checkOut){
+                    totalDaysOccupied += Math.round((checkOut-startDateFormatted) / (24 * 3600 * 1000)+1)
+                }
 
-                totalDaysOccupied += Math.round((endDateFormatted-checkIn) / (24 * 3600 * 1000)+1)
+                else if(startDateFormatted > checkIn && endDateFormatted < checkOut){
+                    totalDaysOccupied = totalDays
+                    break
+                }
             }
           
         }
-        console.log(totalDaysOccupied);
-        console.log(totalDays);
         
         return ( totalDaysOccupied / totalDays ) * 100
 
@@ -83,6 +93,15 @@ class Booking {
         this.checkOut = checkOut;
         this.discount = discount;
         this.room = room;
+    }
+
+    getFee(){
+
+        let feeDiscount = this.room.rate - ( this.room.rate * (this.discount / 100))
+
+        feeDiscount -= feeDiscount * (this.room.discount / 100)
+
+        return feeDiscount
     }
 }
 
