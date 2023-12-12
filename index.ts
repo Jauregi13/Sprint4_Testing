@@ -1,6 +1,20 @@
-class Room {
 
-    constructor(name,bookings,rate,discount){
+interface RoomInterface {
+
+    name: string,
+    bookings: Array<BookingInterface>
+    rate: number
+    discount: number
+}
+
+export class Room implements RoomInterface {
+
+    name: string
+    bookings: Array<BookingInterface>
+    rate: number
+    discount: number
+
+    constructor(name : string, bookings : Array<BookingInterface>, rate : number, discount : number){
 
         this.name = name
         this.bookings = bookings
@@ -9,7 +23,7 @@ class Room {
 
     }
 
-    isOccupied(date){
+    isOccupied(date : string) : boolean {
 
         const dateDataSplitted = date.split('/')
 
@@ -33,7 +47,7 @@ class Room {
         return false
     }
 
-    occupancyPercentage(startDate,endDate){
+    occupancyPercentage(startDate: string, endDate: string): number{
 
         const startDateData = startDate.split('/')
         const startDateFormatted = new Date(parseInt(startDateData[2]),parseInt(startDateData[1])-1,parseInt(startDateData[0]));
@@ -44,7 +58,7 @@ class Room {
 
         let totalDaysOccupied = 0
 
-        const totalDays = Math.round((endDateFormatted-startDateFormatted) / (24 * 3600 * 1000)+1)
+        const totalDays = Math.round((endDateFormatted.getTime()-startDateFormatted.getTime()) / (24 * 3600 * 1000)+1)
 
         for (const booking of this.bookings) {
 
@@ -59,16 +73,16 @@ class Room {
 
                 if(startDateFormatted <= checkIn && endDateFormatted >= checkOut){
 
-                    totalDaysOccupied += Math.round((checkOut-checkIn) / (24 * 3600 * 1000)+1)
+                    totalDaysOccupied += Math.round((checkOut.getTime()-checkIn.getTime()) / (24 * 3600 * 1000)+1)
     
                 }
                 else if(startDateFormatted <= checkIn && endDateFormatted < checkOut){
     
-                    totalDaysOccupied += Math.round((endDateFormatted-checkIn) / (24 * 3600 * 1000)+1)
+                    totalDaysOccupied += Math.round((endDateFormatted.getTime()-checkIn.getTime()) / (24 * 3600 * 1000)+1)
                 }
                 else if(startDateFormatted > checkIn && endDateFormatted >= checkOut){
 
-                    totalDaysOccupied += Math.round((checkOut-startDateFormatted) / (24 * 3600 * 1000)+1)
+                    totalDaysOccupied += Math.round((checkOut.getTime()-startDateFormatted.getTime()) / (24 * 3600 * 1000)+1)
                 }
 
                 else if(startDateFormatted > checkIn && endDateFormatted < checkOut){
@@ -83,7 +97,7 @@ class Room {
 
     }
 
-    static totalOccupancyPercentage(rooms,startDate,endDate){
+    static totalOccupancyPercentage(rooms: Array<Room>, startDate: string, endDate: string): number{
 
         const startDateData = startDate.split('/')
         const startDateFormatted = new Date(parseInt(startDateData[2]),parseInt(startDateData[1])-1,parseInt(startDateData[0]));
@@ -94,7 +108,7 @@ class Room {
         let roomsPercentage = 0;
 
         // total de días a calcular
-        const totalDays = Math.round((endDateFormatted-startDateFormatted) / (24 * 3600 * 1000)+1)
+        const totalDays = Math.round((endDateFormatted.getTime()-startDateFormatted.getTime()) / (24 * 3600 * 1000)+1)
 
         // iteración del rango de fechas
         while (startDateFormatted <= endDateFormatted) {
@@ -124,7 +138,7 @@ class Room {
 
     }
 
-    static availableRooms(rooms,startDate,endDate){
+    static availableRooms(rooms: Array<Room>, startDate: string, endDate: string): Array<string>{
 
         const roomsAvailable = []
 
@@ -142,9 +156,26 @@ class Room {
     }
 }
 
-class Booking {
+interface BookingInterface {
 
-    constructor(name,email,checkIn,checkOut,discount,room){
+    name: string
+    email: string
+    checkIn: string
+    checkOut: string
+    discount: number
+    room: RoomInterface
+}
+
+export class Booking implements BookingInterface{
+
+    name: string
+    email: string
+    checkIn: string
+    checkOut: string
+    discount: number
+    room: RoomInterface
+
+    constructor(name: string, email: string, checkIn: string, checkOut: string, discount: number, room: RoomInterface){
 
         this.name = name;
         this.email = email;
@@ -154,7 +185,7 @@ class Booking {
         this.room = room;
     }
 
-    getFee(){
+    getFee(): number{
 
         let feeDiscount = this.room.rate - ( this.room.rate * (this.discount / 100))
 

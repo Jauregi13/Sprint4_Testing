@@ -4,5 +4,10 @@
   },
   "scripts": {
     "test": "jest"
+  },
+  "dependencies": {
+    "@types/jest": "^29.5.11",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.3.3"
   }
 }

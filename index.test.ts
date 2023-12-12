@@ -1,8 +1,7 @@
 const bookings = require('./data/bookings.json')
 const rooms = require('./data/rooms.json')
 const roomsWithBookings = require('./data/roomsWithBookings.json')
-const { Room, Booking } = require('./index')
-
+const { Room, Booking } = require('./index.ts') 
 
 describe("TEST IS OCCUPIED",() => {
 
