@@ -31,6 +31,11 @@ describe("TEST IS OCCUPIED",() => {
         expect(room.isOccupied('20/12/2023')).toBeTruthy()
     })
 
+    /*test("El formato de fechas no es el correcto", () => {
+        const room = new Room(rooms[0].name,bookings,rooms[0].rate,rooms[0].discount)
+        expect(room.isOccupied('40/12/2023')).toThrow(TypeError)
+    })*/
+
 
 })
 

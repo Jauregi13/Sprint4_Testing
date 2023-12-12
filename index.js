@@ -11,26 +11,33 @@ class Room {
 
     isOccupied(date){
 
-        const dateDataSplitted = date.split('/')
+            const dateDataSplitted = date.split('/')
 
-        const dateFormatted = new Date(parseInt(dateDataSplitted[2]),parseInt(dateDataSplitted[1])-1,parseInt(dateDataSplitted[0]))
-
-        for (const booking of this.bookings) {
-
-            let checkInData = booking.checkIn.split('/')
-            let checkOutData = booking.checkOut.split('/')
-
-            let checkIn = new Date(parseInt(checkInData[2]),parseInt(checkInData[1])-1,parseInt(checkInData[0]))
-            let checkOut = new Date(parseInt(checkOutData[2]),parseInt(checkOutData[1])-1,parseInt(checkOutData[0]))
-
-            if(checkIn <= dateFormatted  && dateFormatted <= checkOut){
-                return true
-
-            }
+            if((dateDataSplitted[0] > 31 || dateDataSplitted[0] < 1 ) || (dateDataSplitted[1] > 12 || dateDataSplitted[1]) < 1){
             
-        }
+                throw new TypeError('El formato de fecha es incorrecto')
+            }
 
-        return false
+            const dateFormatted = new Date(parseInt(dateDataSplitted[2]),parseInt(dateDataSplitted[1])-1,parseInt(dateDataSplitted[0]))
+
+            for (const booking of this.bookings) {
+
+                let checkInData = booking.checkIn.split('/')
+                let checkOutData = booking.checkOut.split('/')
+
+                let checkIn = new Date(parseInt(checkInData[2]),parseInt(checkInData[1])-1,parseInt(checkInData[0]))
+                let checkOut = new Date(parseInt(checkOutData[2]),parseInt(checkOutData[1])-1,parseInt(checkOutData[0]))
+
+                if(checkIn <= dateFormatted  && dateFormatted <= checkOut){
+                    return true
+
+                }
+                
+            }
+
+            return false
+
+        
     }
 
     occupancyPercentage(startDate,endDate){
